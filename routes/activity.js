@@ -20,8 +20,6 @@ router.get('/refresh',(req,res)=>{
   })
 })
 
-
-//get and update activity
 router.get('/get/activity', (req, res)=>{
   if (req.session.token) {
     requestify.get('https://www.strava.com/api/v3/athletes/'+req.session.userid+'/activities?access_token='+req.session.token).then((response) => {
