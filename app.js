@@ -92,12 +92,12 @@ app.use('/graphql', graphqlHTTP({
 //   console.log('Server running succefully...')
 // })
 
-// app.use('/', indexRouter)
-// app.use('/users', usersRouter)
-// app.use('/activity', activityRouter)
-// app.use('/rank', rankRouter)
-// app.use('/segment', segmentRouter)
-// app.use('/group', groupRouter)
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
+app.use('/activity', activityRouter)
+app.use('/rank', rankRouter)
+app.use('/segment', segmentRouter)
+app.use('/group', groupRouter)
 // catch 404 and forward to error handler
 // app.use((req, res, next) => {
 //   next(createError(404))
