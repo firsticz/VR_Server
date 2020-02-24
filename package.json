@@ -3,22 +3,36 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www --exec babel-node -e js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "express": "~4.16.0",
+    "express-graphql": "^0.9.0",
     "express-session": "^1.16.2",
+    "graphql": "^14.6.0",
+    "graphql-compose": "^7.12.3",
+    "graphql-compose-mongoose": "^7.3.4",
+    "graphql-yoga": "^1.18.3",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "mongodb": "^2.2.33",
+    "mongoose": "^5.9.2",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
     "passport-strava": "^0.2.0",
     "request": "^2.88.0",
     "requestify": "^0.2.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-import-graphql": "^2.7.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint-config-nss": "^1.0.2"
   }
 }
