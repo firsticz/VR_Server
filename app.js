@@ -115,3 +115,4 @@ app.use('/group', groupRouter)
 // })
 
 module.exports = app
+// module.exports.app = functions.https.onRequest(app)
