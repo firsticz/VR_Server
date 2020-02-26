@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const usersSchema = new Schema({
-  id: String,
+  id: Number,
   username: String,
   firstname: String,
   lastname: String,
@@ -14,6 +14,7 @@ const usersSchema = new Schema({
   profile: String,
   refreshToken: String,
   group: Array,
+  password: { type: String },
 })
 
 module.exports = usersSchema
