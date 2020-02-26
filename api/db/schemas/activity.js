@@ -25,4 +25,24 @@ const activitySchema = new Schema({
   elev_low: Number,
 })
 
+activitySchema.static('useractivity', function useractivity(userid) {
+  const records = this.aggregate([{
+    $lookup: {
+      from: 'users',
+      localField: 'athlete.id',
+      foreignField: 'id',
+      as: 'userdetail',
+    },
+  },
+  // {
+  //   $unwind: {
+  //     path: '$userdetail',
+  //     preserveNullAndEmptyArrays: true, // optional
+  //   },
+  // },
+  ])
+  console.log(records)
+  return records
+})
+
 module.exports = activitySchema

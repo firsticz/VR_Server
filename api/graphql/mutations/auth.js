@@ -38,8 +38,10 @@ const loginResolver = new Resolver({
     if (!valid) {
       throw new UserInputError('รหัสผ่านไม่ถุกต้อง')
     }
-    const { token } = jwtSign({ _id: user._id, id: user.id, name: user.firstname })
-    return token
+    console.log(user)
+    const token = jwtSign({ _id: user._id, id: user.id, name: user.firstname })
+    console.log(token)
+    return { token }
   },
 }, schemaComposer)
 
@@ -47,4 +49,4 @@ const authMutations = {
   login: loginResolver,
 }
 
-export default authMutations
+module.exports = authMutations

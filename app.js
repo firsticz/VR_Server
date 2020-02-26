@@ -87,6 +87,7 @@ mongo.connection.once('open', () => {
 app.use('/graphql', graphqlHTTP({
   graphiql: true,
   schema: graphql,
+  rootValue: graphql,
 }))
 // app.listen(8080, () => {
 //   console.log('Server running succefully...')
@@ -113,6 +114,11 @@ app.use('/group', groupRouter)
 //   res.status(err.status || 500)
 //   res.render('error')
 // })
+
+const port = process.env.PORT || 4500
+app.listen(port, () => {
+  console.log(`webhook is listening ${port} 😂`)
+})
 
 module.exports = app
 // module.exports.app = functions.https.onRequest(app)
