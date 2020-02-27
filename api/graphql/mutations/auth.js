@@ -29,7 +29,6 @@ const loginResolver = new Resolver({
   },
   resolve: async ({ args }) => {
     const { username, password } = args
-    console.log(username)
     const user = await users.findOne({ username })
     if (!user) {
       throw new UserInputError(`อีเมล ${username} ไม่ตรงกับผู้ใช้ใดๆ`)
@@ -38,9 +37,10 @@ const loginResolver = new Resolver({
     if (!valid) {
       throw new UserInputError('รหัสผ่านไม่ถุกต้อง')
     }
-    console.log(user)
-    const token = jwtSign({ _id: user._id, id: user.id, name: user.firstname })
-    console.log(token)
+    const accesstoken = await users.refreshToken(user.id)
+    const token = jwtSign({
+      _id: user._id, id: user.id, name: user.firstname, accesstoken,
+    })
     return { token }
   },
 }, schemaComposer)
