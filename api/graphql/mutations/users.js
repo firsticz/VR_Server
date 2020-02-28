@@ -28,11 +28,32 @@ const setPassword = new Resolver({
   },
 }, schemaComposer)
 
+const refreshToken = new Resolver({
+  name: 'refreshToken',
+  type: new GraphQLObjectType({
+    name: 'refreshTokenType',
+    fields: {
+      accesstoken: {
+        type: GraphQLString,
+      },
+    },
+  }),
+  args: {
+    id: 'Int',
+  },
+  resolve: async ({ args }) => {
+    const { id } = args
+    const accesstoken = await users.refreshToken(id)
+    return { accesstoken }
+  },
+}, schemaComposer)
+
 const user = {
   createUser: userTC.getResolver('createOne'),
   updateUser: userTC.getResolver('updateById'),
   removeUser: userTC.getResolver('removeById'),
   setPassword,
+  refreshToken,
 }
 
 module.exports = user
