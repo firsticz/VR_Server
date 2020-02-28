@@ -33,4 +33,56 @@ usersSchema.static('refreshToken', async function refreshToken(userid) {
   return acc
 })
 
+usersSchema.static('leaderboard', async function leaderboard() {
+  const record = await this.aggregate([
+    {
+      $lookup: {
+        from: 'activitys',
+        localField: 'id',
+        foreignField: 'athlete.id',
+        as: 'activityDetail',
+      },
+    },
+    {
+      $project: {
+        id: 1,
+        activityDetail: 1,
+        firstname: 1,
+        lastname: 1,
+        profile_medium: 1,
+      },
+    },
+    {
+      $unwind: {
+        path: '$activityDetail',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $group: {
+        _id: '$id',
+        totaldistance: {
+          $sum: '$activityDetail.distance',
+        },
+        firstname: {
+          $first: '$firstname',
+        },
+        lastname: {
+          $first: '$lastname',
+        },
+        profile: {
+          $first: '$profile_medium',
+        },
+      },
+    },
+    {
+      $sort: {
+        totaldistance: -1,
+      },
+    },
+  ])
+  console.log(record)
+  return record
+})
+
 module.exports = usersSchema
