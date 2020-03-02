@@ -81,7 +81,6 @@ usersSchema.static('leaderboard', async function leaderboard() {
       },
     },
   ])
-  console.log(record)
   return record
 })
 
