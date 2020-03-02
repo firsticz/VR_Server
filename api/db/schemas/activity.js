@@ -1,3 +1,5 @@
+import requestify from 'requestify'
+
 const mongoose = require('mongoose')
 
 const { Schema } = mongoose
@@ -42,6 +44,21 @@ activitySchema.static('useractivity', function useractivity(userid) {
   // },
   ])
   console.log(records)
+  return records
+})
+
+activitySchema.static('updateactivity', async function updateactivity(userid, token) {
+  const url = `https://www.strava.com/api/v3/athletes/${userid}/activities?access_token=${token}`
+  const records = await requestify.get(url).then(async (response) => {
+    const activities = JSON.parse(response.body)
+    await activities.forEach(async (element) => {
+      const result = await this.findOne({ id: element.id })
+      if (result == null) {
+        await this.create(element)
+      }
+    })
+    return activities
+  })
   return records
 })
 
