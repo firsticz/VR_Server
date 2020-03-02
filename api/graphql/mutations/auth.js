@@ -31,7 +31,7 @@ const loginResolver = new Resolver({
     const { username, password } = args
     const user = await users.findOne({ username })
     if (!user) {
-      throw new UserInputError(`อีเมล ${username} ไม่ตรงกับผู้ใช้ใดๆ`)
+      throw new UserInputError(`${username} ไม่ตรงกับผู้ใช้ใดๆ`)
     }
     const valid = passwordHash.verify(password, user.password)
     if (!valid) {
