@@ -16,11 +16,12 @@ const setPassword = new Resolver({
   args: {
     id: GraphQLInt,
     password: GraphQLString,
+    username: GraphQLString,
   },
   resolve: async ({ args }) => {
-    const { id, password } = args
+    const { id, password, username } = args
     const hashedPassword = passwordHash.generate(password)
-    const user = await users.findOneAndUpdate({ id }, { password: hashedPassword })
+    const user = await users.findOneAndUpdate({ id }, { password: hashedPassword, username })
     if (!user) {
       throw new Error('User not found')
     }
