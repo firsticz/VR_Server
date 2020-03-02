@@ -25,6 +25,20 @@ const activityuserResolver = new Resolver({
   },
 }, schemaComposer)
 
+const updateActivityResolver = new Resolver({
+  name: 'updateActivity',
+  args: {
+    userid: 'String',
+    token: 'String',
+  },
+  type: new GraphQLList(activityTC.getType()),
+  resolve: async ({ args: { userid, token } }) => {
+    const data = await activitys.updateactivity(userid, token)
+    console.log(data)
+    return data
+  },
+}, schemaComposer)
+
 const activity = {
   activityById: activityTC.getResolver('findById'),
   activityByIds: activityTC.getResolver('findByIds'),
@@ -34,6 +48,7 @@ const activity = {
   activityConnection: activityTC.getResolver('connection'),
   activityPagination: activityTC.getResolver('pagination'),
   activityuser: activityuserResolver,
+  updateActivity: updateActivityResolver,
 }
 
 module.exports = activity
