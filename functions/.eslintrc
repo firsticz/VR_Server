@@ -4,19 +4,13 @@
     "no-console": 0,
     "import/no-unresolved": 0,
     "no-buffer-constructor": 0,
+    "max-len": 0,
     "no-underscore-dangle": [
       "error",
       {
-        "allow": [
-          "_id", 
-          "_get", 
-          "_last", 
-          "_orderBy", 
-          "_reverse", 
-          "_set",
-          "_sumBy"
-        ]
+        "allow": ["_id"]
       }
-    ]
+    ],
+    "no-param-reassign": 0
   }
 }
