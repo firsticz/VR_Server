@@ -1,11 +1,11 @@
 var passport = require("passport");
 const StravaStrategy = require('passport-strava').Strategy;
 
-let config = {};
+// let config = {};
 
-try {
-  config = require('../config.js'); // eslint-disable-line
-} catch (e) { console.log('Configuration not found, resorting to ENV variables'); }
+// try {
+//   config = require('../config.js'); // eslint-disable-line
+// } catch (e) { console.log('Configuration not found, resorting to ENV variables'); }
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
@@ -14,24 +14,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
 	done(null, user);
 });
-
-// passport.use(
-// 	new GoogleStrategy(
-// 		{
-// 			clientID: "GOOGLE_CLIENT_ID",
-// 			clientSecret: "GOOGLE_CLIENT_SECRET",
-// 			callbackURL: "http://localhost:4500/auth/google/callback"
-// 		},
-// 		function(accessToken, refreshToken, profile, done) {
-// 			var userData = {
-// 				email: profile.emails[0].value,
-// 				name: profile.displayName,
-// 				token: accessToken
-// 			};
-// 			done(null, userData);
-// 		}
-// 	)
-// );
 
 passport.use(new StravaStrategy({
   clientID: "38068",
@@ -44,7 +26,6 @@ passport.use(new StravaStrategy({
     userProfile.accessToken = accessToken;
     userProfile.refreshToken = refreshToken;
     console.log(refreshToken);
-    // elasticsearchdatahandler.userRefresh(accessToken, userProfile.id);
     done(null, profile);
   });
 }));

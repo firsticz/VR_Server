@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 
-const config = require('../config')
+const config = require('config')
 
 const { MongoClient } = require('mongodb')
 
@@ -17,10 +17,6 @@ router.get('/', (req, res, next) => {
 })
 
 /* GET Google Authentication API. */
-// router.get(
-// 	"/auth/strava",
-// 	passport.authenticate("google", { scope: ["profile", "email"] })
-// );
 
 router.get('/auth/strava', passport.authenticate('strava', { scope: ['read_all,profile:read_all,activity:read_all'] }), () => { })
 
@@ -30,7 +26,7 @@ router.get(
   (req, res) => {
     const token = req.user.accessToken
     const { refreshToken } = req.user
-    MongoClient.connect(config.mongoDBUrl, (err, client) => {
+    MongoClient.connect(config.get('database.uri'), (err, client) => {
       if (err) {
         console.log(err)
       }
@@ -51,16 +47,17 @@ router.get(
         }
         const newVal = { $set: { logins: logins + 1, refreshToken } }
         database.collection('users').updateOne({ id: req.user.id }, newVal, () => {
-          database.close()
+          // database.close()
         })
       })
     })
-    req.session.save(() => {
-      sess = req.session
-      sess.token = token
-      sess.userid = req.user.id
-      res.redirect(`http://localhost:3000/callback?token=${token}&userid=${req.user.id}`)
-    })
+    res.redirect(`http://localhost:3000/callback?token=${token}&userid=${req.user.id}`)
+    // req.session.save(() => {
+    //   sess = req.session
+    //   sess.token = token
+    //   sess.userid = req.user.id
+    //   res.redirect(`http://localhost:3000/callback?token=${token}&userid=${req.user.id}`)
+    // })
   }
 )
 
