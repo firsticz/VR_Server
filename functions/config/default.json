@@ -7,5 +7,8 @@
   },
   "jwt": {
     "secret": "defaultsecret"
+  },
+  "callback": {
+    "url": "http://localhost:5001/strava-connect/us-central1/app/auth/strava/callback"
   }
 }
