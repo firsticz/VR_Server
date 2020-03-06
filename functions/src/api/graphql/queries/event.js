@@ -9,12 +9,12 @@ const {
 
 
 const event = {
-  userById: eventsTC.getResolver('findById'),
-  userByIds: eventsTC.getResolver('findByIds'),
-  userOne: eventsTC.getResolver('findOne'),
-  userMany: eventsTC.getResolver('findMany'),
-  userCount: eventsTC.getResolver('count'),
-  userConnection: eventsTC.getResolver('connection'),
-  userPagination: eventsTC.getResolver('pagination'),
+  eventById: eventsTC.getResolver('findById'),
+  eventByIds: eventsTC.getResolver('findByIds'),
+  eventOne: eventsTC.getResolver('findOne'),
+  eventMany: eventsTC.getResolver('findMany'),
+  eventCount: eventsTC.getResolver('count'),
+  eventConnection: eventsTC.getResolver('connection'),
+  eventPagination: eventsTC.getResolver('pagination'),
 }
 module.exports = event

@@ -4,7 +4,7 @@ const event = require('./event')
 
 const queries = Object.assign({},
   users,
-  event,
-  activity)
+  activity,
+  event,)
 
 module.exports = queries
