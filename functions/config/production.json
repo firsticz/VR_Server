@@ -4,5 +4,10 @@
   },
   "database": {
     "uri": "mongodb+srv://firstloving:0831736368@strava-cx7jn.gcp.mongodb.net/strava?retryWrites=true&w=majority"
+  },
+  "callback": {
+    "url": "https://us-central1-strava-connect.cloudfunctions.net/app/auth/strava/callback",
+    "after_url": "https://strava-connect.firebaseapp.com/callback",
+    "after_error": "https://strava-connect.firebaseapp.com/"
   }
 }
