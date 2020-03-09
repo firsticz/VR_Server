@@ -21,6 +21,10 @@ const setPassword = new Resolver({
   resolve: async ({ args }) => {
     const { id, password, username } = args
     const hashedPassword = passwordHash.generate(password)
+    const user_name = await users.findOne({$and:[{id},{username}]})
+    if(user_name){
+      throw new Error('Username already')
+    }
     const user = await users.findOneAndUpdate({ id }, { password: hashedPassword, username })
     if (!user) {
       throw new Error('User not found')
