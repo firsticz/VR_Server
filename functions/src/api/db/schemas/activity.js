@@ -12,7 +12,7 @@ const activitySchema = new Schema({
   name: String,
   distance: Number,
   id: Number,
-  start_date: String,
+  start_date: Date,
   start_latlng: [Number],
   end_latlng: [Number],
   location_country: String,

@@ -9,7 +9,8 @@ const eventSchema = new Schema({
   NameEN: String,
   city: String,
   country: String,
-  date:String,
+  start_date: Date,
+  end_date: Date
 })
 
 
