@@ -22,7 +22,7 @@ router.get('/auth/strava', passport.authenticate('strava', { scope: ['read_all,p
 
 router.get(
   '/auth/strava/callback',
-  passport.authenticate('strava', { failureRedirect: 'http://localhost:3000', session: false }),
+  passport.authenticate('strava', { failureRedirect: config.get('callback.after_error'), session: false }),
   (req, res) => {
     const token = req.user.accessToken
     const { refreshToken } = req.user
@@ -51,7 +51,7 @@ router.get(
         })
       })
     })
-    res.redirect(`http://localhost:3000/callback?token=${token}&userid=${req.user.id}`)
+    res.redirect(`${config.get('callback.after_url')}?token=${token}&userid=${req.user.id}`)
     // req.session.save(() => {
     //   sess = req.session
     //   sess.token = token
