@@ -4,13 +4,8 @@ const { Schema } = mongoose
 
 const eventSchema = new Schema({
   id: Number,
-  eventId: Number,
-  NameTH: String,
-  NameEN: String,
-  city: String,
-  country: String,
-  start_date: Date,
-  end_date: Date
+  groupId: Number,
+  Name: String,
 })
 
 
