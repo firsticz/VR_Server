@@ -14,12 +14,12 @@ const eventSchema = new Schema({
   member: [Number]
 })
 
-eventSchema.static('activityhasevent', async function activityhasevent(){
-  const recEvent = await this.find({eventId: 100})
+eventSchema.static('activityhasevent', async function activityhasevent(eventId){
+  const recEvent = await this.find({eventId})
   const records = await this.aggregate([
     {
       $match: {
-        eventId: 100
+        eventId:eventId
       }
     },
     {
@@ -30,8 +30,10 @@ eventSchema.static('activityhasevent', async function activityhasevent(){
         _id: '$member',
         event: {
           $push: {
+            _id: '$_id', 
             eventId: '$eventId',
-            nameTH: '$nameTH',
+            NameTH: '$NameTH',
+            NameEN: '$NameEN',
             start_date : '$start_date',
             end_date : '$end_date'
           }

@@ -24,8 +24,12 @@ const activityhasevent = new Resolver({
       }
     }
   })),
-  resolve: async () => {
-    const data = await events.activityhasevent()
+  args: {
+    eventId: 'Float',
+  },
+  resolve: async ({args}) => {
+    const { eventId } = args
+    const data = await events.activityhasevent(eventId)
     return data
   },
 },schemaComposer)
