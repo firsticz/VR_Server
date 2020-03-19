@@ -39,6 +39,18 @@ const updateActivityResolver = new Resolver({
   },
 }, schemaComposer)
 
+const getActivitiesResolver = new Resolver({
+  name: 'getActivity',
+  args: {
+    userid: 'Int'
+  },
+  type: new GraphQLList(activityTC.getType()),
+  resolve: async ({ args: { userid }}) => {
+    const data = await activitys.find({'athlete.id' : userid})
+    return data
+  }
+}, schemaComposer)
+
 const activity = {
   activityById: activityTC.getResolver('findById'),
   activityByIds: activityTC.getResolver('findByIds'),
@@ -49,6 +61,7 @@ const activity = {
   activityPagination: activityTC.getResolver('pagination'),
   activityuser: activityuserResolver,
   updateActivity: updateActivityResolver,
+  getActivity: getActivitiesResolver,
 }
 
 module.exports = activity
