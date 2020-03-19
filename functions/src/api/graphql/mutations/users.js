@@ -3,6 +3,7 @@ import passwordHash from 'password-hash'
 const userTC = require('../type-composers/users')
 
 const users = require('../../db/models/users')
+const activity = require('../../db/models/activity')
 
 const {
   schemaComposer, Resolver, graphql: {
@@ -17,15 +18,20 @@ const setPassword = new Resolver({
     id: GraphQLInt,
     password: GraphQLString,
     username: GraphQLString,
+    token: GraphQLString,
   },
   resolve: async ({ args }) => {
-    const { id, password, username } = args
+    const { id, password, username, token } = args
     const hashedPassword = passwordHash.generate(password)
     const user_name = await users.findOne({ $and:[ { id }, { username } ] })
     if(user_name){
       throw new Error('Username already')
     }
     const user = await users.findOneAndUpdate({ id }, { password: hashedPassword, username })
+    const update = await activity.updateactivity(id, token)
+    if(update){
+      console.log('true')
+    }
     if (!user) {
       throw new Error('User not found')
     }
