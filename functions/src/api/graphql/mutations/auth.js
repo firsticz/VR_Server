@@ -41,7 +41,7 @@ const loginResolver = new Resolver({
     const accesstoken = await users.refreshToken(user.id)
     const update = await activity.updateactivity(user.id, accesstoken)
     const token = jwtSign({
-      _id: user._id, id: user.id, name: user.firstname, accesstoken,
+      _id: user._id, id: user.id, name: user.firstname, accesstoken, profile: user.profile
     })
     return { token }
   },
