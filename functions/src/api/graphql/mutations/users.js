@@ -19,15 +19,16 @@ const setPassword = new Resolver({
     password: GraphQLString,
     username: GraphQLString,
     token: GraphQLString,
+    groupid: GraphQLString
   },
   resolve: async ({ args }) => {
-    const { id, password, username, token } = args
+    const { id, password, username, token, groupid } = args
     const hashedPassword = passwordHash.generate(password)
     const user_name = await users.findOne({ $and:[ { id }, { username } ] })
     if(user_name){
       throw new Error('Username already')
     }
-    const user = await users.findOneAndUpdate({ id }, { password: hashedPassword, username })
+    const user = await users.findOneAndUpdate({ id }, { password: hashedPassword, username, $push:{ group: groupid } })
     const update = await activity.updateactivity(id, token)
     if(update){
       console.log('true')
