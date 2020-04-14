@@ -1,6 +1,7 @@
 const eventsTC = require('../type-composers/event')
 const events = require('../../db/models/event')
 const activityTC = require('../type-composers/activity')
+const userTC = require('../type-composers/users')
 
 const {
   schemaComposer, Resolver, graphql: {
@@ -21,6 +22,9 @@ const activityhasevent = new Resolver({
       },
       activities: {
         type: new GraphQLList(activityTC.getType())
+      },
+      profile: {
+        type: new GraphQLList(userTC.getType())
       }
     }
   })),

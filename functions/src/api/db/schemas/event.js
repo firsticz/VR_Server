@@ -71,11 +71,19 @@ eventSchema.static('activityhasevent', async function activityhasevent(eventId){
         event: {$first: '$event'},
         activities: {$push: '$activities'}
       }
+    }, 
+    {
+      $lookup: {
+        from: 'users',
+        localField: '_id',
+        foreignField: 'id',
+        as: 'profile'
+      }
     }
   ])
   // console.log(recEvent)
-  // console.log('start')
-  // console.log(records)
+  console.log('start')
+  console.log(records)
   return records
 })
 

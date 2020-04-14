@@ -3,7 +3,7 @@
     "listen": true
   },
   "database": {
-    "uri": "mongodb+srv://firstloving:0831736368@strava-cx7jn.gcp.mongodb.net/strava?retryWrites=true&w=majority"
+    "uri": "mongodb://localhost:27017/strava"
   },
   "jwt": {
     "secret": "defaultsecret"

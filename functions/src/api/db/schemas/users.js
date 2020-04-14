@@ -3,6 +3,12 @@ const requestify = require('requestify')
 
 const { Schema } = mongoose
 
+const DKey = 'role'
+const enumUserType = {
+  ADMIN: 'Admin',
+  RUNNER: 'Runner',
+}
+
 const usersSchema = new Schema({
   id: Number,
   username: String,
@@ -14,9 +20,18 @@ const usersSchema = new Schema({
   sex: String,
   profile: String,
   refreshToken: String,
-  group: Array,
+  group: [String],
   password: { type: String },
+  role: {
+    type: String,
+    require: true,
+    enum: Object.keys(enumUserType),
+  },
 })
+
+
+
+usersSchema.set('discriminatorKey', DKey)
 
 usersSchema.static('refreshToken', async function refreshToken(userid) {
   const record = await this.findOne({ id: userid })
@@ -83,5 +98,6 @@ usersSchema.static('leaderboard', async function leaderboard() {
   ])
   return record
 })
+
 
 module.exports = usersSchema

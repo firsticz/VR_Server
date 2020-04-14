@@ -6,6 +6,7 @@ import passwordHash from 'password-hash'
 const userTC = require('../type-composers/users')
 
 const users = require('../../db/models/users')
+const activity = require('../../db/models/activity')
 
 const {
   schemaComposer, Resolver, graphql: {
@@ -38,8 +39,9 @@ const loginResolver = new Resolver({
       throw new UserInputError('รหัสผ่านไม่ถุกต้อง')
     }
     const accesstoken = await users.refreshToken(user.id)
+    const update = await activity.updateactivity(user.id, accesstoken)
     const token = jwtSign({
-      _id: user._id, id: user.id, name: user.firstname, accesstoken,
+      _id: user._id, id: user.id, name: user.firstname, accesstoken, profile: user.profile, role: user.role
     })
     return { token }
   },
