@@ -99,5 +99,17 @@ usersSchema.static('leaderboard', async function leaderboard() {
   return record
 })
 
+usersSchema.static('joinGroupEvent', async function (groupid) {
+  const user = this.find({
+    group: { $all:[groupid]}
+  })
+  return user
+//   const record = await this.aggregate([
+//     {
+//       $match
+//     }
+//   ])
+})
+
 
 module.exports = usersSchema

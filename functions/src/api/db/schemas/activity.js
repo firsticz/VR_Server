@@ -62,4 +62,8 @@ activitySchema.static('updateactivity', async function updateactivity(userid, to
   return records
 })
 
+activitySchema.static('updateAllActivity', async function updateAllActivity() {
+  
+}) 
+
 module.exports = activitySchema
