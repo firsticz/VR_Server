@@ -6,7 +6,7 @@
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "pm2 startOrRestart ecosystem.prod.config.js",
-    "deploy": "yarn build && firebase deploy --only functions:app",
+    "deploy": "yarn build && firebase deploy --only functions:app,functions:scheduled",
     "logs": "firebase functions:log",
     "build": "./node_modules/.bin/babel src --out-dir dist",
     "develop": "pm2 startOrRestart ecosystem.config.js && pm2 logs",

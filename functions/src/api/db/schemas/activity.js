@@ -3,6 +3,7 @@ import requestify from 'requestify'
 const mongoose = require('mongoose')
 
 const { Schema } = mongoose
+const users = require('../../db/models/users')
 
 const activitySchema = new Schema({
   athlete: {
@@ -61,5 +62,24 @@ activitySchema.static('updateactivity', async function updateactivity(userid, to
   })
   return records
 })
+
+activitySchema.static('updateAllActivity', async function updateAllActivity() {
+  const alluser = await  users.find({}, {_id: 0, id: 1 })
+  try {
+    await alluser.forEach(async element => {
+      await users.refreshToken(element.id)
+    })
+    const allaccuser = await  users.find({}, {_id: 0, id: 1, accesstoken: 1})
+    await allaccuser.forEach(async element => {
+      await this.updateactivity(element.id, element.accesstoken)
+    })
+    console.log("update all activity success")
+    return true
+  } catch (error) {
+    console.log("cannot update all activity")
+  }
+  
+  
+}) 
 
 module.exports = activitySchema

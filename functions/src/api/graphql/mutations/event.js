@@ -1,6 +1,7 @@
 const eventTC = require('../type-composers/event')
 
 const events = require('../../db/models/event')
+const users = require('../../db/models/users')
 
 const {
   schemaComposer, Resolver, graphql: {
@@ -17,8 +18,20 @@ const registerEvent = new Resolver({
   },
   resolve: async ({ args }) => {
     const { eventid, userid } = args
-    const event = await events.findOneAndUpdate({ eventId: eventid }, { $push:{ member: userid } })
-
+    const listGroup = await users.find({id: userid}, { "group" : 1.0 })
+    console.log(listGroup)
+    let testg = []
+    let listid = []
+    let event = []
+    listGroup[0].group.forEach( async element => {
+      testg = await users.joinGroupEvent(element)
+      testg.forEach(ele=>{
+        listid.push(ele.id)
+      })
+      event = await events.findOneAndUpdate({ eventId: eventid }, { $push:{ member: { $each: listid } } })
+    })
+    // const testg = await users.joinGroupEvent("001")
+    console.log(listid)
     if (!event) {
       throw new Error('can not register')
     }

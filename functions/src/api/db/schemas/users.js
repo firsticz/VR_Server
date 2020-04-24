@@ -20,6 +20,7 @@ const usersSchema = new Schema({
   sex: String,
   profile: String,
   refreshToken: String,
+  accesstoken:String,
   group: [String],
   password: { type: String },
   role: {
@@ -40,9 +41,10 @@ usersSchema.static('refreshToken', async function refreshToken(userid) {
     client_secret: '4b9ec55c89bd45ce828ae201b614c466f20765b6',
     grant_type: 'refresh_token',
     refresh_token: record.refreshToken,
-  }).then((response) => {
+  }).then(async(response) => {
     const res = JSON.parse(response.body)
     const accesstoken = res.access_token
+    await this.findOneAndUpdate({ id: userid }, { accesstoken: accesstoken })
     return accesstoken
   })
   return acc
@@ -97,6 +99,18 @@ usersSchema.static('leaderboard', async function leaderboard() {
     },
   ])
   return record
+})
+
+usersSchema.static('joinGroupEvent', async function (groupid) {
+  const user = this.find({
+    group: { $all:[groupid]}
+  })
+  return user
+//   const record = await this.aggregate([
+//     {
+//       $match
+//     }
+//   ])
 })
 
 
