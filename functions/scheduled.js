@@ -9,18 +9,18 @@ exports.scheduled = functions
   .region('asia-east2')
   .pubsub
   // .schedule('*/5 * * * *') // every 5 minutes
-  .schedule('every 5 minutes') // every 5 minutes
+  .schedule('every 1 hours') // every 5 minutes
   .timeZone('Asia/Bangkok') // Users can choose timezone - default is America/Los_Angeles
   .onRun((context) => {
     // console.log('RUNNGING schedulted', new Date())
-    // return Promise.each([
-    //   'updateAllActivity',
-    // ], (resource) => {
-    //   return Activitys[resource].cache(900, null, true).exec()
-    // })
+    return Promise.each([
+      'updateAllActivity',
+    ], (resource) => {
+      return Activitys.updateAllActivity()
+    })
     // console.log('running', context)
     // return null
-    const status = Activitys.updateAllActivity()
+    // const status = Activitys.updateAllActivity()
     if(status){
       console.log("success")
     }

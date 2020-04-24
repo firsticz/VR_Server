@@ -66,11 +66,11 @@ activitySchema.static('updateactivity', async function updateactivity(userid, to
 activitySchema.static('updateAllActivity', async function updateAllActivity() {
   const alluser = await  users.find({}, {_id: 0, id: 1 })
   try {
-    alluser.forEach(async element => {
+    await alluser.forEach(async element => {
       await users.refreshToken(element.id)
     })
     const allaccuser = await  users.find({}, {_id: 0, id: 1, accesstoken: 1})
-    allaccuser.forEach(async element => {
+    await allaccuser.forEach(async element => {
       await this.updateactivity(element.id, element.accesstoken)
     })
     console.log("update all activity success")
