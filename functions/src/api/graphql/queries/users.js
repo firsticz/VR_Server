@@ -27,6 +27,9 @@ const leaderboardResolver = new Resolver({
       profile: {
         type: GraphQLString,
       },
+      sex: {
+        type: GraphQLString,
+      },
     },
   })),
   resolve: async () => {
