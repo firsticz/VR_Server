@@ -67,6 +67,7 @@ usersSchema.static('leaderboard', async function leaderboard() {
         firstname: 1,
         lastname: 1,
         profile_medium: 1,
+        sex: 1
       },
     },
     {
@@ -90,6 +91,9 @@ usersSchema.static('leaderboard', async function leaderboard() {
         profile: {
           $first: '$profile_medium',
         },
+        sex: {
+          $first: '$sex'
+        }
       },
     },
     {
