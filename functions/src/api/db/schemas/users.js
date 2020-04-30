@@ -213,7 +213,7 @@ usersSchema.static('groupleader', async function groupleader(eventId) {
     },
   ])
 
-  console.log(record)
+  // console.log(record)
   return record
 })
 
