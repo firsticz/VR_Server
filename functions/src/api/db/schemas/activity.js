@@ -26,6 +26,7 @@ const activitySchema = new Schema({
   max_speed: Number,
   elev_high: Number,
   elev_low: Number,
+  moving_time: Number,
 })
 
 activitySchema.static('useractivity', function useractivity(userid) {

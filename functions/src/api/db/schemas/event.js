@@ -79,7 +79,7 @@ eventSchema.static('activityhasevent', async function activityhasevent(eventId){
         foreignField: 'id',
         as: 'profile'
       }
-    }
+    },
   ])
   // console.log(recEvent)
   console.log('start')
