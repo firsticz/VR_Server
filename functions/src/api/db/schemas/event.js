@@ -159,8 +159,8 @@ eventSchema.static('myteamlead', async function myteamlead(eventId, listgroup){
     }
   ])
   // console.log(recEvent)
-  console.log('start')
-  console.log(records)
+  // console.log('start')
+  // console.log(records)
   return records
 })
 
