@@ -2,6 +2,7 @@ const eventsTC = require('../type-composers/event')
 const events = require('../../db/models/event')
 const activityTC = require('../type-composers/activity')
 const userTC = require('../type-composers/users')
+const users = require('../../db/models/users')
 
 const {
   schemaComposer, Resolver, graphql: {
@@ -38,6 +39,41 @@ const activityhasevent = new Resolver({
   },
 },schemaComposer)
 
+const myteamleadResolver = new Resolver({
+  name: 'myteamlead',
+  type: new GraphQLList(new GraphQLObjectType({
+    name: 'myteamleadType',
+    fields: {
+      _id: {
+        type: GraphQLString,
+      },
+      event: {
+        type: new GraphQLList(eventsTC.getType())
+      },
+      activities: {
+        type: new GraphQLList(activityTC.getType())
+      },
+      profile: {
+        type: new GraphQLList(userTC.getType())
+      }
+    }
+  })),
+  args: {
+    eventId: 'Float',
+    userId: 'Float'
+  },
+  resolve: async ({args}) => {
+    const { eventId, userId } = args
+    let listgroup= []
+    const user = await  users.find({"id" : userId})
+    user.forEach(element => {
+      listgroup = element.group
+    })
+    const data = await events.myteamlead(eventId, listgroup)
+    return data
+  },
+},schemaComposer)
+
 
 const event = {
   eventById: eventsTC.getResolver('findById'),
@@ -48,5 +84,6 @@ const event = {
   eventConnection: eventsTC.getResolver('connection'),
   eventPagination: eventsTC.getResolver('pagination'),
   activityhasevent,
+  MyteamLead: myteamleadResolver
 }
 module.exports = event

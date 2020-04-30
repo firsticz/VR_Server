@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const requestify = require('requestify')
 
 const { Schema } = mongoose
+const events = require('../../db/models/event')
 
 const DKey = 'role'
 const enumUserType = {
@@ -82,6 +83,9 @@ usersSchema.static('leaderboard', async function leaderboard() {
         totaldistance: {
           $sum: '$activityDetail.distance',
         },
+        totaltime: {
+          $sum: '$activityDetail.moving_time',
+        },
         firstname: {
           $first: '$firstname',
         },
@@ -115,6 +119,102 @@ usersSchema.static('joinGroupEvent', async function (groupid) {
 //       $match
 //     }
 //   ])
+})
+
+usersSchema.static('groupleader', async function groupleader(eventId) {
+  const recEvent = await events.find({eventId})
+  const record = await this.aggregate([
+    {
+      $unwind: '$group'
+    },
+    {
+      $group: {
+        _id : '$group',
+        user: {
+          $push: {
+            _id: '$_id',
+            id: '$id',
+            username: '$username',
+            firstname: '$firstname',
+            lastname: '$lastname'
+          }
+        }
+      }
+    },
+    {
+      $lookup: {
+        from: 'activitys',
+        localField: 'user.id',
+        foreignField: 'athlete.id',
+        as: 'activities'
+      }
+    },
+    {
+      $lookup: {
+        from: 'events',
+        localField: 'user.id',
+        foreignField: 'member',
+        as: 'event'
+      }
+    },
+    {
+      $unwind: '$event'
+    },
+    {
+      $match: {
+        'event.eventId': eventId
+      }
+    },
+    {
+      $unwind: '$activities'
+    },
+    {
+      $match: {
+        $expr: {
+          $and: [
+            {
+              $gte: [{$toDate:'$activities.start_date'},
+              {$toDate: recEvent[0].start_date}]
+            },{
+              $lte: [{$toDate:'$activities.start_date'},
+              {$toDate: recEvent[0].end_date}]
+            }
+          ]
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        event: { $first: '$event' },
+        user: { $first: '$user' },
+        activities: { $push: '$activities' }
+      }
+    },
+    {
+      $lookup: {
+      from: 'groups',
+      localField: '_id',
+      foreignField: 'groupId',
+      as: 'groupDetail'
+      }
+    },
+    {
+      $unwind: '$groupDetail'
+    },
+    {
+      $group: {
+        _id: '$_id',
+        event: { $first: '$event' },
+        user: { $first: '$user' },
+        activity: { $first: '$activities' },
+        groupDetail: { $push: '$groupDetail' }
+      }
+    },
+  ])
+
+  // console.log(record)
+  return record
 })
 
 
