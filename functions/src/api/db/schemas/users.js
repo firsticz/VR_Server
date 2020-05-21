@@ -218,4 +218,29 @@ usersSchema.static('groupleader', async function groupleader(eventId) {
 })
 
 
+usersSchema.static('list_member', async function list_member(){
+  const record = await this.aggregate([
+    {
+      $unwind: '$group'
+    },
+    {
+      $group : {
+        _id: '$group',
+        profile: {
+          $push: {
+            id: '$id',
+            firstname: '$firstname',
+            lastname: '$lastname'
+          }
+        }
+        
+
+      }
+    }
+  ])
+  console.log(record)
+  return record
+})
+
+
 module.exports = usersSchema

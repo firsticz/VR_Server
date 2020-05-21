@@ -73,6 +73,29 @@ const groupleaderResolver = new Resolver({
   },
 },schemaComposer)
 
+const listemberResolver = new Resolver({
+  name: 'listember',
+  type: new GraphQLList(new GraphQLObjectType({
+    name: 'listemberType',
+    fields: {
+      _id: {
+        type: GraphQLString,
+      },
+      profile: {
+        type: new GraphQLList(usersTC.getType())
+      },
+
+      
+    }
+  })),
+
+  resolve: async () => {
+    const data = await users.list_member()
+    console.log(data)
+    return data
+  },
+},schemaComposer)
+
 const user = {
   userById: usersTC.getResolver('findById'),
   userByIds: usersTC.getResolver('findByIds'),
@@ -82,7 +105,8 @@ const user = {
   userConnection: usersTC.getResolver('connection'),
   userPagination: usersTC.getResolver('pagination'),
   leaderboard: leaderboardResolver,
-  groupleader: groupleaderResolver
+  groupleader: groupleaderResolver,
+  listgroup: listemberResolver
 }
 
 module.exports = user

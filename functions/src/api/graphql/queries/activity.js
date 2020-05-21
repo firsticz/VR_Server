@@ -46,7 +46,7 @@ const getActivitiesResolver = new Resolver({
   },
   type: new GraphQLList(activityTC.getType()),
   resolve: async ({ args: { userid }}) => {
-    const data = await activitys.find({'athlete.id' : userid})
+    const data = await activitys.find({'athlete.id' : userid}).sort({ start_date : -1})
     return data
   }
 }, schemaComposer)

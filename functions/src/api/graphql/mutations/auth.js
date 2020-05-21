@@ -36,7 +36,7 @@ const loginResolver = new Resolver({
     }
     const valid = passwordHash.verify(password, user.password)
     if (!valid) {
-      throw new UserInputError('รหัสผ่านไม่ถุกต้อง')
+      throw new UserInputError('รหัสผ่านไม่ถูกต้อง')
     }
     const accesstoken = await users.refreshToken(user.id)
     const update = await activity.updateactivity(user.id, accesstoken)
