@@ -12,7 +12,8 @@ const eventSchema = new Schema({
   country: String,
   start_date: Date,
   end_date: Date,
-  member: [Number]
+  member: [Number],
+  banner: String
 })
 
 eventSchema.static('activityhasevent', async function activityhasevent(eventId){
