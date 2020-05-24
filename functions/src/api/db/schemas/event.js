@@ -165,4 +165,24 @@ eventSchema.static('myteamlead', async function myteamlead(eventId, listgroup){
   return records
 })
 
+
+
+eventSchema.static('expEvent', async function expEvent(){
+  const record = this.find(
+    // query expEvent
+    {'end_date':{'$lt':new Date()}}
+  )
+
+  return record
+})
+eventSchema.static('eventnow', async function eventnow(){
+  const record = this.find(
+    // query eventnow
+    {'end_date':{'$gt':new Date()}}
+  )
+
+  return record
+})
+
+
 module.exports = eventSchema

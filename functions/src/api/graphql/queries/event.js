@@ -75,6 +75,25 @@ const myteamleadResolver = new Resolver({
 },schemaComposer)
 
 
+const expEventResolver = new Resolver({
+  name: 'expEvent',
+  type: new GraphQLList(eventsTC.getType()),
+  resolve: async () =>{
+    const data =  await events.expEvent()
+    return data
+  }
+}, schemaComposer)
+
+const nowEventResolver = new Resolver({
+  name: 'nowEvent',
+  type: new GraphQLList(eventsTC.getType()),
+  resolve: async () =>{
+    const data =  await events.eventnow()
+    return data
+  }
+}, schemaComposer)
+
+
 const event = {
   eventById: eventsTC.getResolver('findById'),
   eventByIds: eventsTC.getResolver('findByIds'),
@@ -84,6 +103,8 @@ const event = {
   eventConnection: eventsTC.getResolver('connection'),
   eventPagination: eventsTC.getResolver('pagination'),
   activityhasevent,
-  MyteamLead: myteamleadResolver
+  MyteamLead: myteamleadResolver,
+  expEvent: expEventResolver,
+  nowevent: nowEventResolver,
 }
 module.exports = event
