@@ -30,13 +30,14 @@ const registerEvent = new Resolver({
     let event = []
     listGroup[0].group.forEach( async element => {
       testg = await users.joinGroupEvent(element)
-      testg.forEach(ele=>{
-        listid.push(ele.id)
+      testg.forEach(async ele=>{
+        await listid.push(ele.id)
       })
       event = await events.findOneAndUpdate({ eventId: eventid }, { $push:{ member: { $each: listid } } })
+      console.log(listid)
     })
     // const testg = await users.joinGroupEvent("001")
-    console.log(listid)
+    
     if (!event) {
       throw new Error('can not register')
     }
