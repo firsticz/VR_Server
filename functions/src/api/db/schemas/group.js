@@ -5,6 +5,7 @@ const { Schema } = mongoose
 const eventSchema = new Schema({
   groupId: String,
   name: String,
+  banner: String
 })
 
 
